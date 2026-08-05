@@ -1,16 +1,16 @@
 {
-  "generated_at_utc": "2026-08-05T08:09:04.464553+00:00",
+  "generated_at_utc": "2026-08-05T09:10:32.511697+00:00",
   "model": {
     "name": "deterministic EC_POLICY_V2 rule engine (no LLM)",
     "parameter_size_b": 0.0
   },
   "framework": {
     "orchestration": "Python role-based deterministic multi-agent pipeline",
-    "data_processing": "pandas 2.2.3"
+    "data_processing": "pandas 3.0.2"
   },
   "runtime": {
-    "python": "3.11.9",
-    "platform": "Windows-10-10.0.26200-SP0"
+    "python": "3.11.15",
+    "platform": "Linux-6.18.5-fc-v18-x86_64-with-glibc2.39"
   },
   "run": {
     "total_cases": 50,

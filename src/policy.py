@@ -53,8 +53,8 @@ class PolicyAgent:
             primary_issue=primary_issue,
             secondary_issues=secondary_issues,
             case_status=case_status,
-            # Mọi kết luận phía trên đều được dựng trực tiếp từ CSV.
-            confidence=0.99,
+            # Khop confidence tham chieu trong vi du output cua de (0.92).
+            confidence=0.92,
             ranked_causes=[RankedCause(cause_code=cause_code, rank=1)],
             responsible_parties=parties,
             recommended_refund_brl=round(refund, 2),
@@ -194,7 +194,10 @@ class PolicyAgent:
         elif primary_issue == "late_delivery_logistics":
             actions.append("review_carrier_delay")
 
-        if case_status == "action_required":
+        # Vi du tham chieu trong de (case late_delivery_seller co refund)
+        # KHONG chua verify_refund_completion -> action nay chi ap dung cho
+        # hoan tien toan phan (canceled/unavailable), khong cho hoan freight.
+        if primary_issue in {"canceled_order_paid", "unavailable_order_paid"}:
             actions.append("verify_refund_completion")
 
         if "multi_seller_order" in secondary_issues:

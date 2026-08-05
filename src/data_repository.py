@@ -40,6 +40,15 @@ class DataRepository:
             data_dir / "olist_order_payments_dataset.csv"
         )
         self.products = pd.read_csv(data_dir / "olist_products_dataset.csv")
+        category_translation = pd.read_csv(
+            data_dir / "product_category_name_translation.csv"
+        )
+        self.products = self.products.merge(
+            category_translation,
+            on="product_category_name",
+            how="left",
+            sort=False,
+        )
         self.sellers = pd.read_csv(data_dir / "olist_sellers_dataset.csv")
 
         # Hai bảng này chưa cần cho EC_POLICY_V2.
@@ -74,13 +83,21 @@ class DataRepository:
                 f"Order {order_id} có customer_id không tồn tại"
             ) from exc
 
-        items = self.items.loc[
-            self.items["order_id"].eq(order_id)
-        ].copy()
+        # Chuẩn hóa thứ tự nguồn theo khóa nghiệp vụ: item theo order_item_id,
+        # payment theo payment_sequential. Thứ tự dòng trong CSV gốc không ổn
+        # định (một số order có payment row nằm đảo 2,1 hoặc 3,1,2), trong khi
+        # schema mẫu của đề luôn liệt kê payment:...:1 trước payment:...:2.
+        items = (
+            self.items.loc[self.items["order_id"].eq(order_id)]
+            .sort_values("order_item_id", kind="stable")
+            .copy()
+        )
 
-        payments = self.payments.loc[
-            self.payments["order_id"].eq(order_id)
-        ].copy()
+        payments = (
+            self.payments.loc[self.payments["order_id"].eq(order_id)]
+            .sort_values("payment_sequential", kind="stable")
+            .copy()
+        )
 
         # drop_duplicates giữ thứ tự product/seller xuất hiện lần đầu trong item CSV.
         product_ids = items["product_id"].drop_duplicates().tolist()
