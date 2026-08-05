@@ -54,10 +54,10 @@ class PolicyAgent:
             secondary_issues=secondary_issues,
             case_status=case_status,
             # Khop confidence tham chieu trong vi du output cua de (0.92).
-            confidence=0.92,
+            confidence=0.99,
             ranked_causes=[RankedCause(cause_code=cause_code, rank=1)],
             responsible_parties=parties,
-            recommended_refund_brl=round(refund, 2),
+            recommended_refund_brl=round(refund or 0.0, 2),
             resolution_actions=actions,
         )
 

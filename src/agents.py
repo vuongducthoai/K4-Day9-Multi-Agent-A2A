@@ -52,9 +52,9 @@ class OrderProductAgent:
                 bundle.products["product_category_name"]
             )
 
-        item_total = _round_brl(items["price"].sum()) if not items.empty else 0.0
+        item_total = _round_brl(items["price"].sum()) if not items.empty else None
         freight_total = (
-            _round_brl(items["freight_value"].sum()) if not items.empty else 0.0
+            _round_brl(items["freight_value"].sum()) if not items.empty else None
         )
 
         return OrderProductHandoff(
@@ -127,7 +127,8 @@ class DeliveryAgent:
             )
 
         seller_handoffs = []
-        if not bundle.items.empty:
+        # Carrier chua nhan hang -> khong ton tai su kien handoff de phan tich.
+        if not bundle.items.empty and not pd.isna(carrier_handoff_at):
             # Mỗi seller dùng shipping_limit_date sớm nhất của chính seller đó.
             for seller_id, seller_items in bundle.items.groupby(
                 "seller_id", sort=False
