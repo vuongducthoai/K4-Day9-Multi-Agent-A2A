@@ -1,0 +1,2 @@
+AGENT_MODEL_NAME = "deterministic EC_POLICY_V2 rule engine (no LLM)"
+AGENT_MODEL_PARAMETER_SIZE_B = 0.0

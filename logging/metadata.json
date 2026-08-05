@@ -1,0 +1,20 @@
+{
+  "generated_at_utc": "2026-08-05T08:09:04.464553+00:00",
+  "model": {
+    "name": "deterministic EC_POLICY_V2 rule engine (no LLM)",
+    "parameter_size_b": 0.0
+  },
+  "framework": {
+    "orchestration": "Python role-based deterministic multi-agent pipeline",
+    "data_processing": "pandas 2.2.3"
+  },
+  "runtime": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0"
+  },
+  "run": {
+    "total_cases": 50,
+    "trace_file": "logging/trace.jsonl"
+  },
+  "note": "No external LLM is invoked in this version. Business decisions are deterministic EC_POLICY_V2 rules."
+}
